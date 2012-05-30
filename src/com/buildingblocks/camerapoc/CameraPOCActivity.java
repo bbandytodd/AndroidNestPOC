@@ -19,6 +19,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
+/*
+ * This Activity shows the two buttons to choose where to get the image from
+ */
 public class CameraPOCActivity extends Activity {
 	
 	private Uri fileUri;
