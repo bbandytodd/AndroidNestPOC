@@ -1,23 +1,28 @@
 package com.buildingblocks.camerapoc;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.Date;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+
+
+import com.facebook.android.AsyncFacebookRunner.*;
+import com.facebook.android.Facebook;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
+
+import com.facebook.android.*;
+import com.facebook.android.Facebook.*;
 
 /*
  * This Activity shows the two buttons to choose where to get the image from
@@ -27,12 +32,40 @@ public class CameraPOCActivity extends Activity {
 	private Uri fileUri;
 	private final int PHOTO_INTENT = 100;
 	private final int GALLERY_INTENT = 200; 
+
+	Facebook facebook = new Facebook("371825396199782");
+	AsyncFacebookRunner mAsyncRunner;
 	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+    }
+    
+    public void logout(View view) {
+    	mAsyncRunner = new AsyncFacebookRunner(facebook);
+    	mAsyncRunner.logout(getBaseContext(), new RequestListener() {
+    		 @Override
+    		 public void onComplete(String response, Object state) {
+    			 Intent i = new Intent(getBaseContext(),LoginActivity.class);
+    			 startActivity(i);
+    		 }
+    		  
+    		  @Override
+    		  public void onIOException(IOException e, Object state) {}
+    		  
+    		  @Override
+    		  public void onFileNotFoundException(FileNotFoundException e,
+    		        Object state) {}
+    		  
+    		  @Override
+    		  public void onMalformedURLException(MalformedURLException e,
+    		        Object state) {}
+    		  
+    		  @Override
+    		  public void onFacebookError(FacebookError e, Object state) {}
+    	});
     }
     
     
